@@ -1,5 +1,5 @@
 # FalconX
-A Cross Platform Flight Controller
+### A Cross Platform Flight Controller - ( In Development for ESP32 )
 
 Currently in a Development State and This Branch isn't stable.
 
