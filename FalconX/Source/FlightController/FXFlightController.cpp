@@ -28,7 +28,7 @@ void FXFlightController::Init()
 
 void FXFlightController::Update(float deltaMs)
 {
-    static float counter = 0;
+    /*static float counter = 0;
     static float direction = 1;
     counter += (deltaMs *direction * 10);
 
@@ -40,12 +40,11 @@ void FXFlightController::Update(float deltaMs)
     {
         direction = 1;
     }
-    counter = 1023;
 
     m_frontLeftDriver->SetPulseWidth((uint32)counter);
     m_frontRightDriver->SetPulseWidth((uint32)counter);
     m_backLeftDriver->SetPulseWidth((uint32)counter);
-    m_backRightDriver->SetPulseWidth((uint32)counter);
+    m_backRightDriver->SetPulseWidth((uint32)counter);*/
 }
 
 void FXFlightController::SetCurrentAngle(FXVector3 vector)

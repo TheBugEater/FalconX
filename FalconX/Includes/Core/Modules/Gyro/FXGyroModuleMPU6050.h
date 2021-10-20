@@ -12,12 +12,19 @@ public:
     virtual void            Update(float deltaMs) override;
 
 private:
+    bool                    ReadSensorGyro(FXVector3& GyroRaw);
+    bool                    ReadSensorAll(FXVector3& GyroRaw, FXVector3& AccRaw, float& temp);
     bool                    Calibrate();
-    bool                    GetAngle(FXVector3& vector, FXVector3 offset, float deltaMs);
+    bool                    UpdateAngle();
+
     FXII2CDriver*           m_i2cDriver;
 
-    FXVector3               m_offset;
+    FXVector3               m_gyroOffset;
     FXVector3               m_angles;
+
     bool                    m_calibrated;
     uint16                  m_calibrateCounter;
+
+    int64                   m_lastSensorReadTime;
+    float                   m_timeToPrint;
 };
