@@ -13,7 +13,7 @@ struct FXI2CDriverESP32Config
     uint8               m_i2cPort;
 };
 
-class FXI2CDriverESP32 : public FXII2CDriver
+class FXI2CDriverESP32 : public IFXI2CDriver
 {
 public:
     FXI2CDriverESP32(FXI2CDriverESP32Config& config);

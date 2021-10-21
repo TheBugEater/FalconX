@@ -1,12 +1,13 @@
 #include "Core/Modules/Gyro/FXGyroModuleMPU6050.h"
 #include "Core/Drivers/I2C/FXI2CDriverESP32.h"
+#include "FlightController/FXFlightController.h"
 #include "Utils/FXUtils.h"
 #include <cmath> 
 
 #define MPU_ADDRESS                 0x68
 #define MPU_READ_GYRO_COMMAND       0x43
 #define MPU_READ_ALL_COMMAND        0x3B
-#define MPU_POWER_COMMAND           0x3B
+#define MPU_POWER_COMMAND           0x6B
 #define MPU_GYRO_SENSITIVITY        131.0f
 #define MPU_ACC_SENSITIVITY         16384.0f
 
@@ -145,6 +146,9 @@ bool FXGyroModuleMPU6050::UpdateAngle()
         m_angles.Y = (0.98f * (m_angles.Y + gyroAngles.Y)) + (0.02f * roll);
         m_angles.Z += gyroAngles.Z;
 
+        // Update Flight Controller's Angle
+        FXFlightController::GetInstance()->SetCurrentAngle(m_angles);
+
         m_lastSensorReadTime = currentTime;
 
         if (m_timeToPrint < currentTime)
@@ -152,7 +156,6 @@ bool FXGyroModuleMPU6050::UpdateAngle()
             m_timeToPrint = currentTime + MICROS_IN_SECONDS;
 
             printf("G | Roll : %f | Pitch : %f | Yaw : %f\n", m_angles.Y, m_angles.X, m_angles.Z);
-            printf("A | Roll : %f | Pitch : %f | Yaw : %f\n", accRaw.Y, accRaw.X, accRaw.Z);
         }
 
         return true;

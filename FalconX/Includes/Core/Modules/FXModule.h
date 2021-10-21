@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/FXTypes.h"
 
-class FXIModule
+class IFXModule
 {
 public:
     virtual bool            Init()                  = 0;

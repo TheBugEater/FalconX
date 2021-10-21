@@ -9,7 +9,7 @@ struct FXBLDCDriverConfig
     uint16              MaxPulseWidth;
 };
 
-class FXBLDCDriver : public FXIDriver
+class FXBLDCDriver : public IFXDriver
 {
 public:
     FXBLDCDriver(FXBLDCDriverConfig& config);

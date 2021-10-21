@@ -1,6 +1,6 @@
 #pragma once
 #include "Core/Modules/FXModule.h"
 
-class FXGyroModule : public FXIModule
+class FXGyroModule : public IFXModule
 {
 };

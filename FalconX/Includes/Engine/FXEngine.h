@@ -18,8 +18,8 @@ public:
     static FalconXEngine&   GetInstance();
     static void             DestroyInstance();
 
-    void                    AddModules(FXIModule* fxModule);
-    void                    AddDriver(FXIDriver* driver);
+    void                    AddModules(IFXModule* fxModule);
+    void                    AddDriver(IFXDriver* driver);
 
     template<typename T>
     T*                      GetDriverByType();
@@ -34,8 +34,8 @@ private:
     FalconXEngineConfig     m_engineConfig;
     FXFlightController*     m_flightController;
 
-    std::vector<FXIModule*> m_modules;
-    std::vector<FXIDriver*> m_drivers;
+    std::vector<IFXModule*> m_modules;
+    std::vector<IFXDriver*> m_drivers;
 };
 
 template<typename T>

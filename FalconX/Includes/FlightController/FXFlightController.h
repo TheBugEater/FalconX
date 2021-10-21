@@ -3,6 +3,7 @@
 #include "Utils/FXVector3.h"
 
 class FXEngine;
+class FXFlightPIDController;
 
 struct FXFlightControllerConfig
 {
@@ -25,19 +26,13 @@ public:
     void                        SetCurrentAngle(FXVector3 vector);
     void                        SetCurrentAltitude(float altitude);
 
+    static  FXFlightController* CreateInstance(FXFlightControllerConfig& config);
+    static  void                DestroyInstance();
+    static  FXFlightController* GetInstance();
+
 private:
+    static FXFlightController*  s_instance;
 
     FXFlightControllerConfig    m_config;
-    float                       m_frontLeftMotorSpeed;
-    float                       m_frontRightMotorSpeed;
-    float                       m_backLeftMotorSpeed;
-    float                       m_backRightMotorSpeed;
-
-    FXBLDCDriverESP32*          m_frontLeftDriver;
-    FXBLDCDriverESP32*          m_frontRightDriver;
-    FXBLDCDriverESP32*          m_backLeftDriver;
-    FXBLDCDriverESP32*          m_backRightDriver;
-
-    FXVector3                   m_currentAngle;
-    float                       m_currentAltitude;
+    FXFlightPIDController*      m_pidController;
 };

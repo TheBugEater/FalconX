@@ -2,7 +2,7 @@
 #include "Core/Modules/Gyro/FXGyroModule.h"
 #include "Utils/FXVector3.h"
 
-class FXII2CDriver;
+class IFXI2CDriver;
 
 class FXGyroModuleMPU6050 : public FXGyroModule
 {
@@ -17,7 +17,7 @@ private:
     bool                    Calibrate();
     bool                    UpdateAngle();
 
-    FXII2CDriver*           m_i2cDriver;
+    IFXI2CDriver*           m_i2cDriver;
 
     FXVector3               m_gyroOffset;
     FXVector3               m_angles;

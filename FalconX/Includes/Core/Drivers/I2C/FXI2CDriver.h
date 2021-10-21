@@ -22,11 +22,11 @@ enum class EFXI2CAck
     Nack
 };
 
-class FXII2CDriver : public FXIDriver
+class IFXI2CDriver : public IFXDriver
 {
 public:
-    FXII2CDriver()          {};
-    virtual ~FXII2CDriver() {};
+    IFXI2CDriver()          {};
+    virtual ~IFXI2CDriver() {};
 
     virtual void            StartWrite(uint16 deviceAddress, EFXI2CAck i2cAck = EFXI2CAck::Ack)                     = 0;
     virtual void            StartRead(uint16 deviceAddress, uint8 readAddress, EFXI2CAck i2cAck = EFXI2CAck::Ack)   = 0;

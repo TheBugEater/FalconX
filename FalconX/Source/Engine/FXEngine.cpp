@@ -34,19 +34,19 @@ void FalconXEngine::DestroyInstance()
     }
 }
 
-void FalconXEngine::AddModules(FXIModule* fxModule)
+void FalconXEngine::AddModules(IFXModule* fxModule)
 {
     m_modules.push_back(fxModule);
 }
 
-void FalconXEngine::AddDriver(FXIDriver* driver)
+void FalconXEngine::AddDriver(IFXDriver* driver)
 {
     m_drivers.push_back(driver);
 }
 
 void FalconXEngine::Start()
 {
-    m_flightController = new FXFlightController(m_engineConfig.FlightConfig);
+    m_flightController = FXFlightController::CreateInstance(m_engineConfig.FlightConfig);
     m_flightController->Init();
 
     for (auto mod : m_modules)
@@ -71,4 +71,7 @@ void FalconXEngine::Start()
 
         FX_Sleep(1);
     }
+
+    FXFlightController::DestroyInstance();
+    m_flightController = nullptr;
 }

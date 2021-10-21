@@ -15,7 +15,7 @@ enum class EWiFiStatus
     Error
 };
 
-class FXWiFiModule: public FXIModule
+class FXWiFiModule: public IFXModule
 {
 public:
 
