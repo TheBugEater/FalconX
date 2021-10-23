@@ -1,5 +1,6 @@
 #include "Engine/FXEngine.h"
 #include "Utils/FXUtils.h"
+#include "Controllers/FXInputController.h"
 #include <assert.h>
 
 FalconXEngine* FalconXEngine::s_instance = nullptr;
@@ -7,6 +8,7 @@ FalconXEngine* FalconXEngine::s_instance = nullptr;
 FalconXEngine::FalconXEngine(FalconXEngineConfig& engineConfig)
     : m_engineConfig(engineConfig)
     , m_flightController(nullptr)
+    , m_networkStatus(ENetworkStatus::None)
 {
 }
 
@@ -39,9 +41,19 @@ void FalconXEngine::AddModules(IFXModule* fxModule)
     m_modules.push_back(fxModule);
 }
 
-void FalconXEngine::AddDriver(IFXDriver* driver)
+void FalconXEngine::AddInputController(IFXInputController* controller)
 {
-    m_drivers.push_back(driver);
+    m_inputControllers.push_back(controller);
+}
+
+void FalconXEngine::SetNetworkStatus(ENetworkStatus status)
+{
+    m_networkStatus = status;
+}
+
+ENetworkStatus FalconXEngine::GetNetworkStatus() const
+{
+    return m_networkStatus;
 }
 
 void FalconXEngine::Start()
@@ -53,18 +65,29 @@ void FalconXEngine::Start()
     {
         mod->Init();
     }
+
+    for (auto inputController : m_inputControllers)
+    {
+        inputController->Init();
+    }
+
     FX_Sleep(200);
 
     int64 lastTime = FX_GetMicros();
     while (true) 
     {
         int64 currentTime = FX_GetMicros();
-        float currentMs = (float)(currentTime - lastTime) / 1000;
+        float currentMs = (float)(currentTime - lastTime) / 1000000;
         lastTime = currentTime;
 
         for (auto mod : m_modules)
         {
             mod->Update(currentMs);
+        }
+
+        for (auto inputController : m_inputControllers)
+        {
+            inputController->Update(currentMs);
         }
 
         m_flightController->Update(currentMs);

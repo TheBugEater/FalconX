@@ -11,6 +11,8 @@ struct FalconXEngineConfig
     FXFlightControllerConfig            FlightConfig;
 };
 
+class IFXInputController;
+
 class FalconXEngine
 {
 public:
@@ -19,10 +21,10 @@ public:
     static void             DestroyInstance();
 
     void                    AddModules(IFXModule* fxModule);
-    void                    AddDriver(IFXDriver* driver);
+    void                    AddInputController(IFXInputController* controller);
 
-    template<typename T>
-    T*                      GetDriverByType();
+    void                    SetNetworkStatus(ENetworkStatus status);
+    ENetworkStatus          GetNetworkStatus() const;
 
     // This will block the current thread and start the FalconX Engine
     void                    Start();
@@ -33,21 +35,8 @@ private:
 
     FalconXEngineConfig     m_engineConfig;
     FXFlightController*     m_flightController;
+    ENetworkStatus          m_networkStatus;
 
-    std::vector<IFXModule*> m_modules;
-    std::vector<IFXDriver*> m_drivers;
+    std::vector<IFXModule*>             m_modules;
+    std::vector<IFXInputController*>    m_inputControllers;
 };
-
-template<typename T>
-T* FalconXEngine::GetDriverByType()
-{
-    for (auto driver : m_drivers)
-    {
-        if (dynamic_cast<T>(driver))
-        {
-            return reinterpret_cast<T*>(driver);
-        }
-    }
-
-    return nullptr;
-}

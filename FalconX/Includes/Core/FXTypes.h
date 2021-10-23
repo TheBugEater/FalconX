@@ -12,3 +12,10 @@ using int32     = int;
 using int64     = long long;
 
 constexpr uint16    FX_MAX_MODULES = 3;
+
+enum class ENetworkStatus
+{
+    None,
+    Connected,
+    Error
+};
