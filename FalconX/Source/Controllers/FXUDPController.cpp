@@ -1,7 +1,6 @@
 #include "Controllers/FXUDPController.h"
 #include "Controllers/FXUDPMessages.h"
 #include "Engine/FXEngine.h"
-#include "Utils/FXUtils.h"
 
 FXUDPController::FXUDPController(FXUDPControllerConfig const& config)
     : m_config(config)
@@ -120,6 +119,20 @@ void FXUDPController::UpdateConnected(float deltaMs)
     int recvSize = recvfrom(m_socket, m_workBuffer, c_workBufferSize, 0, (struct sockaddr*)&recvAddr, &addrLen);
     if (recvSize > (int)sizeof(int32))
     {
+        FXBinraryStream stream(m_workBuffer, recvSize);
+        int32 messageType = 0;
+        if (stream.ReadInt32(messageType))
+        {
+            if (messageType == 1)
+            {
+                int32 yaw, thrust, roll, pitch;
+                stream.ReadInt32(yaw);
+                stream.ReadInt32(thrust);
+                stream.ReadInt32(roll);
+                stream.ReadInt32(pitch);
+                printf("Recieved Yaw : %d, Thrust : %d, Pitch : %d, Roll : %d\n", yaw, thrust, pitch, roll);
+            }
+        }
     }
     else
     {
@@ -134,7 +147,7 @@ void FXUDPController::UpdateConnected(float deltaMs)
     {
         m_pingTimer = 0;
         FXUDPPingMessage message;
-        message.m_currentMicros = FX_GetMicros();
+        message.m_magicNumber = m_config.MagicNumber;
         printf("Sending a Ping!\n");
         SendMessage(&message);
     }

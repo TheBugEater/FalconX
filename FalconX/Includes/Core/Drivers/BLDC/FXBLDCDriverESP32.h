@@ -6,7 +6,7 @@ class FXBLDCDriverESP32 : public FXBLDCDriver
 public:
     FXBLDCDriverESP32(FXBLDCDriverConfig& config);
 
-    virtual void            SetPulseWidth(uint32 pulseWidth) override;
+    virtual void            SetSpeed(float speed) override;
 
 private:
     uint8                   m_ledcChannel;

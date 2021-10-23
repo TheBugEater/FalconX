@@ -5,8 +5,6 @@
 struct FXBLDCDriverConfig
 {
     uint8               PinOut;
-    uint16              MinPulseWidth;
-    uint16              MaxPulseWidth;
 };
 
 class FXBLDCDriver : public IFXDriver
@@ -14,7 +12,8 @@ class FXBLDCDriver : public IFXDriver
 public:
     FXBLDCDriver(FXBLDCDriverConfig& config);
 
-    virtual void                    SetPulseWidth(uint32 pulseWidth) {};
+    // Set Motor Speed 0 - 1
+    virtual void                    SetSpeed(float speed) {};
 
 protected:
     FXBLDCDriverConfig              m_config;

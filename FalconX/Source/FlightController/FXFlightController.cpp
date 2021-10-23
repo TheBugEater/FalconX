@@ -37,6 +37,7 @@ FXFlightController::FXFlightController(FXFlightControllerConfig& config)
 void FXFlightController::Init()
 {
     m_pidController = new FXFlightPIDController();
+    m_pidController->Init();
 }
 
 void FXFlightController::Update(float deltaMs)

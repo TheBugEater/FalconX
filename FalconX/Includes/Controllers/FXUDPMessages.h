@@ -17,17 +17,17 @@ public:
 class FXUDPPingMessage : public IFXUDPMessage
 {
 public:
-    FXUDPPingMessage() : m_currentMicros(0) {}
+    FXUDPPingMessage() : m_magicNumber(0) {}
 
     bool                Serialize(FXBinraryStream* stream) override
     {
-        return stream->WriteUint64(m_currentMicros);
+        return stream->WriteUint32(m_magicNumber);
     }
 
     bool                Deserialize(FXBinraryStream* stream) override
     {
-        return stream->ReadUint64(m_currentMicros);
+        return stream->ReadUint32(m_magicNumber);
     }
 
-    uint64              m_currentMicros;
+    uint32              m_magicNumber;
 };
