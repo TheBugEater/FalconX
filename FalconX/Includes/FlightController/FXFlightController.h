@@ -14,19 +14,18 @@ struct FXFlightControllerConfig
     uint8           BackRightPin;
 };
 
-class FXBLDCDriverESP32;
-
 class FXFlightController
 {
 public:
-    FXFlightController(FXFlightControllerConfig& config);
+    FXFlightController(FXFlightControllerConfig const& config);
 
     void                        Init();
     void                        Update(float deltaMs);
     void                        SetCurrentAngle(FXVector3 vector);
     void                        SetCurrentAltitude(float altitude);
+    void                        SetControllerData(FXFlightInputControllerData const& data);
 
-    static  FXFlightController* CreateInstance(FXFlightControllerConfig& config);
+    static  FXFlightController* CreateInstance(FXFlightControllerConfig const& config);
     static  void                DestroyInstance();
     static  FXFlightController* GetInstance();
 

@@ -19,3 +19,27 @@ enum class ENetworkStatus
     Connected,
     Error
 };
+
+struct FXFlightInputControllerData
+{
+    FXFlightInputControllerData()
+        : Thrust(0)
+        , Yaw(0)
+        , Pitch(0)
+        , Roll(0)
+    {
+    }
+
+    FXFlightInputControllerData(float thrust, float yaw, float pitch, float roll)
+        : Thrust(thrust)
+        , Yaw(yaw)
+        , Pitch(pitch)
+        , Roll(roll)
+    {
+    }
+
+    float           Thrust;
+    float           Yaw;
+    float           Pitch;
+    float           Roll;
+};

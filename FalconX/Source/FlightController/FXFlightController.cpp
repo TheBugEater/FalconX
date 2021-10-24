@@ -4,7 +4,7 @@
 
 FXFlightController* FXFlightController::s_instance = nullptr;
 
-FXFlightController* FXFlightController::CreateInstance(FXFlightControllerConfig& config)
+FXFlightController* FXFlightController::CreateInstance(FXFlightControllerConfig const& config)
 {
     assert(!s_instance);
 
@@ -27,7 +27,7 @@ FXFlightController* FXFlightController::GetInstance()
 }
 
 
-FXFlightController::FXFlightController(FXFlightControllerConfig& config)
+FXFlightController::FXFlightController(FXFlightControllerConfig const& config)
     : m_config(config)
     , m_pidController(nullptr)
 {
@@ -51,4 +51,9 @@ void FXFlightController::SetCurrentAngle(FXVector3 vector)
 
 void FXFlightController::SetCurrentAltitude(float altitude)
 {
+}
+
+void FXFlightController::SetControllerData(FXFlightInputControllerData const& data)
+{
+    m_pidController->SetControllerData(data);
 }

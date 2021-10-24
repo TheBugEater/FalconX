@@ -1,10 +1,10 @@
 #include "Controllers/FXUDPController.h"
-#include "Controllers/FXUDPMessages.h"
 #include "Engine/FXEngine.h"
 
 FXUDPController::FXUDPController(FXUDPControllerConfig const& config)
     : m_config(config)
     , m_status(EUDPControllerStatus::WaitingForNetwork)
+    , m_pingTimer(0)
 {
 }
 
@@ -123,14 +123,13 @@ void FXUDPController::UpdateConnected(float deltaMs)
         int32 messageType = 0;
         if (stream.ReadInt32(messageType))
         {
-            if (messageType == 1)
+            switch ((EUDPMessageTypes)messageType)
             {
-                int32 yaw, thrust, roll, pitch;
-                stream.ReadInt32(yaw);
-                stream.ReadInt32(thrust);
-                stream.ReadInt32(roll);
-                stream.ReadInt32(pitch);
-                printf("Recieved Yaw : %d, Thrust : %d, Pitch : %d, Roll : %d\n", yaw, thrust, pitch, roll);
+            case EUDPMessageTypes::ControllerInput:
+                HandleControllerInput(stream);
+                break;
+            default:
+                break;
             }
         }
     }
@@ -157,6 +156,15 @@ void FXUDPController::CloseSocket()
 {
     shutdown(m_socket, SHUT_RDWR);
     close(m_socket);
+}
+
+void FXUDPController::HandleControllerInput(FXBinraryStream& stream)
+{
+    FXUDPControllerInputMessage message = {};
+    message.Deserialize(&stream);
+
+    FXFlightInputControllerData controllerData(message.m_thrust / 1000.0f, message.m_yaw / 1000.0f, message.m_pitch / 1000.0f, message.m_roll / 1000.0f);
+    FXFlightController::GetInstance()->SetControllerData(controllerData);
 }
 
 bool FXUDPController::SendMessage(IFXUDPMessage* message)

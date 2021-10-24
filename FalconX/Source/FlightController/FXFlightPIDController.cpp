@@ -14,12 +14,30 @@ void FXFlightPIDController::Init()
     config.PinOut = 2;
     m_rearRight = new FXBLDCDriverESP32(config);
 
-    m_currentThrust = 1;
+    m_thrust = 1;
 }
 
 void FXFlightPIDController::Update(float deltaMs)
 {
-    if (!m_calibrated)
+    if (m_calibrated)
+    {
+        m_thrust += m_controllerData.Thrust * deltaMs * 0.5f;
+        if (m_thrust > 1)
+        {
+            m_thrust = 1;
+        }
+        else if (m_thrust < 0)
+        {
+            m_thrust = 0;
+        }
+
+        printf("Thrust: %.2f | Controller Thrust : %.2f\n", m_thrust, m_controllerData.Thrust);
+        m_frontLeft->SetSpeed(m_thrust);
+        m_frontRight->SetSpeed(m_thrust);
+        m_rearLeft->SetSpeed(m_thrust);
+        m_rearRight->SetSpeed(m_thrust);
+    }
+    else
     {
         CalibrateESC(deltaMs);
     }
@@ -27,16 +45,21 @@ void FXFlightPIDController::Update(float deltaMs)
 
 void FXFlightPIDController::CalibrateESC(float deltaMs)
 {
-    m_currentThrust -= deltaMs;
-    printf("ESC Calibration Pulse : %f\n", m_currentThrust);
-    if (m_currentThrust <= 0)
+    m_thrust -= deltaMs;
+    printf("ESC Calibration Pulse : %f\n", m_thrust);
+    if (m_thrust <= 0)
     {
-        m_currentThrust = 0;
+        m_thrust = 0;
         m_calibrated = true;
     }
 
-    m_frontLeft->SetSpeed(m_currentThrust);
-    m_frontRight->SetSpeed(m_currentThrust);
-    m_rearLeft->SetSpeed(m_currentThrust);
-    m_rearRight->SetSpeed(m_currentThrust);
+    m_frontLeft->SetSpeed(m_thrust);
+    m_frontRight->SetSpeed(m_thrust);
+    m_rearLeft->SetSpeed(m_thrust);
+    m_rearRight->SetSpeed(m_thrust);
+}
+
+void FXFlightPIDController::SetControllerData(FXFlightInputControllerData const& data)
+{
+    m_controllerData = data;
 }

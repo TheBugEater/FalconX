@@ -1,12 +1,11 @@
 #include "Controllers/FXInputController.h"
+#include "Controllers/FXUDPMessages.h"
 #include "Core/FXTypes.h"
 
 #ifdef FALCONX_ESP_IDF
 #include "lwip/sockets.h"
 #include "lwip/sys.h"
 #endif
-
-class IFXUDPMessage;
 
 enum class EUDPControllerStatus
 {
@@ -38,6 +37,7 @@ private:
     void                    UpdateConnected(float dt);
     void                    CloseSocket();
 
+    void                    HandleControllerInput(FXBinraryStream& stream);
     bool                    SendMessage(IFXUDPMessage*  message);
 
     FXUDPControllerConfig   m_config;
