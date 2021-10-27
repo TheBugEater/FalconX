@@ -4,7 +4,8 @@
 enum class EUDPMessageTypes : uint8
 {
     Ping,
-    ControllerInput
+    ControllerInput,
+    FlightStatus
 };
 
 class IFXUDPMessage
@@ -61,4 +62,24 @@ public:
     int32              m_thrust;
     int32              m_roll;
     int32              m_pitch;
+};
+
+class FXUDPFlightStatusMessage : public IFXUDPMessage
+{
+public:
+    FXUDPFlightStatusMessage() : m_flightStatus(0) {}
+
+    bool                Serialize(FXBinraryStream* stream) override
+    {
+        bool res = stream->WriteInt32(m_flightStatus);
+        return res;
+    }
+
+    bool                Deserialize(FXBinraryStream* stream) override
+    {
+        bool res = stream->ReadInt32(m_flightStatus);
+        return res;
+    }
+
+    int32               m_flightStatus;
 };

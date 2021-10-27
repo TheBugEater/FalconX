@@ -126,7 +126,10 @@ void FXUDPController::UpdateConnected(float deltaMs)
             switch ((EUDPMessageTypes)messageType)
             {
             case EUDPMessageTypes::ControllerInput:
-                HandleControllerInput(stream);
+                HandleControllerInputMessage(stream);
+                break;
+            case EUDPMessageTypes::FlightStatus:
+                HandleFlightStatusMessage(stream);
                 break;
             default:
                 break;
@@ -158,13 +161,22 @@ void FXUDPController::CloseSocket()
     close(m_socket);
 }
 
-void FXUDPController::HandleControllerInput(FXBinraryStream& stream)
+void FXUDPController::HandleControllerInputMessage(FXBinraryStream& stream)
 {
     FXUDPControllerInputMessage message = {};
     message.Deserialize(&stream);
 
     FXFlightInputControllerData controllerData(message.m_thrust / 1000.0f, message.m_yaw / 1000.0f, message.m_pitch / 1000.0f, message.m_roll / 1000.0f);
     FXFlightController::GetInstance()->SetControllerData(controllerData);
+}
+
+void FXUDPController::HandleFlightStatusMessage(FXBinraryStream& stream)
+{
+    FXUDPFlightStatusMessage message = {};
+    message.Deserialize(&stream);
+    printf("Handling Flight Status Message: %d\n", message.m_flightStatus);
+
+    FXFlightController::GetInstance()->SetFlightControllerStatus((EFXFlightControllerStatus)message.m_flightStatus);
 }
 
 bool FXUDPController::SendMessage(IFXUDPMessage* message)

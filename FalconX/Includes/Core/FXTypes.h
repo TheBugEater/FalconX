@@ -20,6 +20,13 @@ enum class ENetworkStatus
     Error
 };
 
+enum class EFXFlightControllerStatus
+{
+    Idle,
+    Started,
+    Stopped
+};
+
 struct FXFlightInputControllerData
 {
     FXFlightInputControllerData()

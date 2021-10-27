@@ -10,6 +10,7 @@ public:
     void                            Update(float deltaMs);
 
     void                            SetControllerData(FXFlightInputControllerData const& data);
+    void                            SetFlightControllerStatus(EFXFlightControllerStatus const& status);
 
 private:
     void                            CalibrateESC(float deltaMs);
@@ -27,4 +28,5 @@ private:
     float                           m_roll;
 
     FXFlightInputControllerData     m_controllerData;
+    EFXFlightControllerStatus       m_flightControllerStatus;
 };

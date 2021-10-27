@@ -30,6 +30,7 @@ FXFlightController* FXFlightController::GetInstance()
 FXFlightController::FXFlightController(FXFlightControllerConfig const& config)
     : m_config(config)
     , m_pidController(nullptr)
+    , m_flightControllerStatus(EFXFlightControllerStatus::Idle)
 {
     assert(!s_instance);
 }
@@ -56,4 +57,10 @@ void FXFlightController::SetCurrentAltitude(float altitude)
 void FXFlightController::SetControllerData(FXFlightInputControllerData const& data)
 {
     m_pidController->SetControllerData(data);
+}
+
+void FXFlightController::SetFlightControllerStatus(EFXFlightControllerStatus const& status)
+{
+    m_flightControllerStatus = status;
+    m_pidController->SetFlightControllerStatus(status);
 }

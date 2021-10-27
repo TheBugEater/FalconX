@@ -19,6 +19,11 @@ void FXFlightPIDController::Init()
 
 void FXFlightPIDController::Update(float deltaMs)
 {
+    if (m_flightControllerStatus != EFXFlightControllerStatus::Started)
+    {
+        return;
+    }
+
     if (m_calibrated)
     {
         m_thrust += m_controllerData.Thrust * deltaMs * 0.5f;
@@ -62,4 +67,9 @@ void FXFlightPIDController::CalibrateESC(float deltaMs)
 void FXFlightPIDController::SetControllerData(FXFlightInputControllerData const& data)
 {
     m_controllerData = data;
+}
+
+void FXFlightPIDController::SetFlightControllerStatus(EFXFlightControllerStatus const& status)
+{
+    m_flightControllerStatus = status;
 }

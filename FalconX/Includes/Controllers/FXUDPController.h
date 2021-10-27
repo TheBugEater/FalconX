@@ -37,7 +37,8 @@ private:
     void                    UpdateConnected(float dt);
     void                    CloseSocket();
 
-    void                    HandleControllerInput(FXBinraryStream& stream);
+    void                    HandleControllerInputMessage(FXBinraryStream& stream);
+    void                    HandleFlightStatusMessage(FXBinraryStream& stream);
     bool                    SendMessage(IFXUDPMessage*  message);
 
     FXUDPControllerConfig   m_config;

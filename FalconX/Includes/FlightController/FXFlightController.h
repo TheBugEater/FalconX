@@ -24,6 +24,7 @@ public:
     void                        SetCurrentAngle(FXVector3 vector);
     void                        SetCurrentAltitude(float altitude);
     void                        SetControllerData(FXFlightInputControllerData const& data);
+    void                        SetFlightControllerStatus(EFXFlightControllerStatus const& status);
 
     static  FXFlightController* CreateInstance(FXFlightControllerConfig const& config);
     static  void                DestroyInstance();
@@ -34,4 +35,5 @@ private:
 
     FXFlightControllerConfig    m_config;
     FXFlightPIDController*      m_pidController;
+    EFXFlightControllerStatus   m_flightControllerStatus;
 };
