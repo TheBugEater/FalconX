@@ -12,5 +12,9 @@ private:
     uint8                   m_ledcChannel;
     static uint8            m_availableChannels[8];
     static bool             m_isTimerInitialised;
+
+    float                   m_minPercentageValue;
+    float                   m_maxPercentageValue;
+    float                   m_percentageValueRange;
 };
 

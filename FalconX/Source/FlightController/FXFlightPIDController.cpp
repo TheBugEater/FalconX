@@ -5,13 +5,13 @@
 void FXFlightPIDController::Init()
 {
     FXBLDCDriverConfig config = {};
-    config.PinOut = 13;
-    m_frontLeft = new FXBLDCDriverESP32(config);
     config.PinOut = 12;
+    m_frontLeft = new FXBLDCDriverESP32(config);
+    config.PinOut = 14;
     m_frontRight = new FXBLDCDriverESP32(config);
-    config.PinOut = 5;
+    config.PinOut = 27;
     m_rearLeft = new FXBLDCDriverESP32(config);
-    config.PinOut = 2;
+    config.PinOut = 25;
     m_rearRight = new FXBLDCDriverESP32(config);
 
     m_thrust = 1;
