@@ -48,6 +48,7 @@ void FXFlightController::Update(float deltaMs)
 
 void FXFlightController::SetCurrentAngle(FXVector3 vector)
 {
+    m_pidController->SetCurrentAngle(vector);
 }
 
 void FXFlightController::SetCurrentAltitude(float altitude)

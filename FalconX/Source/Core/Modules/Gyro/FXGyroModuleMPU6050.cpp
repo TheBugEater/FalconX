@@ -140,7 +140,7 @@ bool FXGyroModuleMPU6050::UpdateAngle()
         FXVector3 accValues = accRaw / MPU_ACC_SENSITIVITY;
 
         double pitch = atan2(accValues.Y, sqrt(accValues.Z * accValues.Z + accValues.X * accValues.X)) * (180 / M_PI);
-        double roll = atan2(accValues.X, sqrt(accValues.Z * accValues.Z + accValues.Y * accValues.Y)) * -(180 / M_PI);
+        double roll = atan2(-accValues.X, sqrt(accValues.Z * accValues.Z + accValues.Y * accValues.Y)) * (180 / M_PI);
 
         m_angles.X = (0.98f * (m_angles.X + gyroAngles.X)) + (0.02f * pitch);
         m_angles.Y = (0.98f * (m_angles.Y + gyroAngles.Y)) + (0.02f * roll);
@@ -153,8 +153,7 @@ bool FXGyroModuleMPU6050::UpdateAngle()
 
         if (m_timeToPrint < currentTime)
         {
-            m_timeToPrint = currentTime + MICROS_IN_SECONDS;
-
+            m_timeToPrint = currentTime + MICROS_IN_SECONDS; 
             printf("G | Roll : %f | Pitch : %f | Yaw : %f\n", m_angles.Y, m_angles.X, m_angles.Z);
         }
 

@@ -56,7 +56,6 @@ void FXBLDCDriverESP32::SetSpeed(float speed)
 {
     float pulseWidth = m_minPercentageValue + (speed * m_percentageValueRange);
     pulseWidth = (pulseWidth < m_minPercentageValue) ? m_minPercentageValue : (pulseWidth > m_maxPercentageValue) ? m_maxPercentageValue : pulseWidth;
-    printf("BLDC Value : %d\n", (uint32)pulseWidth);
     ledc_set_duty(LEDC_HIGH_SPEED_MODE, (ledc_channel_t)m_ledcChannel, (uint32)pulseWidth);
     ledc_update_duty(LEDC_HIGH_SPEED_MODE, (ledc_channel_t)m_ledcChannel);
 }
