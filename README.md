@@ -13,13 +13,13 @@ Currently in a Development State and This Branch isn't stable.
     - [ ] Altitude Module needs to be integrated
 - [ ] Drivers
     - [ ] I2C Driver for ESP32 is hard coded to use in master mode. This should be flexible.
-    - [ ] BLDC Driver for ESP32 doesn't seem to generate the correct PWM signals. This should be fixed.
+    - [X] BLDC Driver for ESP32 doesn't seem to generate the correct PWM signals. This should be fixed.
 - [ ] Flight Controller
     - [ ] Implement a State Machine to Control the flight status. 
-    - [ ] BLDC Startup Routine.
-    - [ ] Drive Motors at a Specific Speed
+    - [X] BLDC Startup Routine.
+    - [X] Drive Motors at a Specific Speed
     - [ ] Altitude Hold
-    - [ ] Self Balance with Gyro's Angle Values
+    - [X] Self Balance with Gyro's Angle Values
     - [X] Connect to the Mobile Unity App via UDP
   
 A Long way to go before I reach these goals, But This list helps me focus on one goal at a time and clear it.
